@@ -1,13 +1,10 @@
 #include <SPI.h>
 
-const int switchPin = 6;
-int switchState = 0;
 int condVal = 0;
 
 void setup() {
   Serial.begin(9600);
   SPI.begin();
-  pinMode(switchPin, INPUT);
 }
 
 void loop() {
