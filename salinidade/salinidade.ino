@@ -12,5 +12,5 @@ void loop() {
   float voltage = condVal * (5.0 / 1023.0); //calcula a condutividade
   Serial.print("Valor da tensão :");
   Serial.println(voltage);
-  delay(50); //delay before looping
+  delay(50);
 }
