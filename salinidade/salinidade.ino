@@ -1,16 +1,33 @@
-#include <SPI.h>
-
-int condVal = 0;
+int linha = 1;
+int LABEL = 1;
 
 void setup() {
+  // inicia a comunicacao serial
   Serial.begin(9600);
-  SPI.begin();
+  // reset da comunicação serial
+  Serial.println("CLEARDATA");
+  // nomeia as colunas
+  Serial.println("LABEL,Hora,valor,linha");
 }
 
 void loop() {
-  condVal = analogRead(A0);
-  float voltage = condVal * (5.0 / 1023.0); //calcula a condutividade
-  Serial.print("Valor da tensão :");
-  Serial.println(voltage);
-  delay(50);
+  // inicia a impressao de dados, sempre iniciando
+  Serial.print("DATA,TIME,");
+  Serial.print(analogRead(A0));
+  Serial.print(",");
+  Serial.println(linha);
+
+  // laco para limitar a quantidade de dados
+  if (linha > 100)
+  {
+    linha = 0;
+    // alimentação das linhas com os dados sempre iniciando
+    Serial.println("ROW,SET,2");
+  }
+
+  // incrementa a linha do excel para que a leitura pule de linha em linha
+  linha++;
+
+  // espera 100 milisegundos
+  delay(100);
 }
