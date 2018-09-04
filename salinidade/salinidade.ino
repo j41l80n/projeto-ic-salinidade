@@ -1,33 +1,61 @@
-int linha = 1;
-int LABEL = 1;
+const float ArduinoVoltage = 5.00; // CHANGE THIS FOR 3.3v Arduinos
+const float ArduinoResolution = ArduinoVoltage / 1024;
 
-void setup() {
-  // inicia a comunicacao serial
+
+const float resistorValue = 10000.0;
+int threshold = 10;
+
+
+int inputPin = A0;
+int ouputPin = 9;
+
+void setup()
+{
   Serial.begin(9600);
-  // reset da comunicação serial
-  Serial.println("CLEARDATA");
-  // nomeia as colunas
-  Serial.println("LABEL,Hora,valor,linha");
+  pinMode(ouputPin, OUTPUT);
+  pinMode(inputPin, INPUT);
 }
 
-void loop() {
-  // inicia a impressao de dados, sempre iniciando
-  Serial.print("DATA,TIME,");
-  Serial.print(analogRead(A0));
-  Serial.print(",");
-  Serial.println(linha);
+void loop()
+{
+  int analogValue = 0;
+  int oldAnalogValue = 1000;
+  float returnVoltage = 0.0;
+  float resistance = 0.0;
+  double Siemens;
+  float TDS = 0.0;
 
-  // laco para limitar a quantidade de dados
-  if (linha > 100)
-  {
-    linha = 0;
-    // alimentação das linhas com os dados sempre iniciando
-    Serial.println("ROW,SET,2");
-  }
+  Serial.print("oldAnalogValue: ");
+  Serial.println(oldAnalogValue);
+  Serial.print("analogValue: ");
+  Serial.println(analogValue);
+  Serial.print("threshold: ");
+  Serial.println(threshold);
 
-  // incrementa a linha do excel para que a leitura pule de linha em linha
-  linha++;
+  analogValue = analogRead( inputPin );
 
-  // espera 100 milisegundos
-  delay(100);
+  Serial.print("Return voltage = ");
+  returnVoltage = analogValue * ArduinoResolution;
+  Serial.print(returnVoltage);
+  Serial.println(" volts");
+
+
+  Serial.print("That works out to a resistance of ");
+  resistance = ((5.00 * resistorValue) / returnVoltage) - resistorValue;
+  Serial.print(resistance);
+  Serial.println(" Ohms.");
+
+
+  Serial.print("Which works out to a conductivity of ");
+  Siemens = 1.0 / (resistance / 1000000);
+  Serial.print(Siemens);
+  Serial.println(" microSiemens.");
+  Serial.print("We can estimate Total Dissolved Solids to be on the order of ");
+  TDS = 500 * (Siemens / 1000);
+  Serial.print(TDS);
+  Serial.println(" PPM.");
+  if (returnVoltage > 4.9) Serial.println("Are you sure this isn't metal?");
+
+  delay(2000);
+  Serial.println("CLEARDATA");
 }
