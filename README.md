@@ -13,4 +13,4 @@ Os resultados indicaram que o desempenho do equipamento melhorou significativame
 Na perspectiva de fazer uso das barragens subterrâneas de forma sustentável, essa pesquisa procura contribuir com mecanismos de controle e monitoramento na gestão da bacia hidrográfica, através da viabilidade de um dispositivo que seja acessível tanto do ponto de vista técnico como financeiro para os usuários das barragens subterrâneas e assim contribuir para a gestão destas obras hidroambientais. 
 
 
-Palavras Chave: condutividade elétrica, prototipagem, águas subterrâneas
+Palavras Chave: condutividade elétrica, prototipagem, águas subterrâneas. 
